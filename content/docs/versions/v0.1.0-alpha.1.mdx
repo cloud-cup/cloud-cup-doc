@@ -1,0 +1,78 @@
+---
+title: v0.1.0-alpha.1
+description: The first pre-release of Cloud Cup, introducing a high-performance reverse proxy with robust features.
+---
+
+# Cloud Cup v0.1.0-alpha.1 Pre-release  
+
+**Release Date**: 2024-11-24  
+
+We are thrilled to announce the first pre-release of Cloud Cup! 🎉  
+This version lays the foundation for a powerful, high-performance reverse proxy with a focus on configurability, fault tolerance, and scalability.  
+
+---
+
+## 🚀 v0.1.0-alpha.1 - First Release  
+
+### 🎉 Key Features  
+
+#### Core Functionality  
+- **Configurable JSON-based setup** for:  
+  - Server address and port.  
+  - SSL settings.  
+  - Flexible route definitions.  
+- **Dynamic hot-reload support** via the `cupctl` CLI.  
+- **Advanced routing system**:  
+  - Support for default (`*`) and wildcard (`/example/*`) routes.  
+  - Configurable backends with failover (`max_failure` setting).  
+
+#### Load Balancing  
+- Default **round-robin strategy** for efficient traffic distribution.  
+- Independent **epoll and thread pools per worker**, enabling high-concurrency request handling.  
+
+#### SSL  
+- **Optional SSL support** with certificates and private keys for secure HTTPS connections.  
+
+#### Fault Tolerance  
+- **Failure management**:  
+  - Backends automatically recover after successful requests.  
+  - Prevents infinite retries when all backends are down.  
+
+#### Scalability  
+- **Multiple worker processes** listening on the same address and port.  
+  - The kernel seamlessly distributes incoming requests among workers.  
+
+---
+
+### 🔧 Improvements & Optimizations  
+
+- Highly optimized for handling **concurrent requests**.  
+- Designed to be **lightweight and efficient**, making it a strong alternative to traditional load balancers.  
+
+---
+
+## 📌 What's Next  
+
+We’re actively working on new features and bug fixes for the next release, including:  
+
+- **Advanced routing strategies**:  
+  - Weighted round-robin.  
+  - Least-connections.  
+- **Metrics** for monitoring backend performance and analyzing traffic patterns.  
+- **Expanded protocol support**:  
+  - HTTP/2 integration.  
+
+---
+
+### ⚠️ Pre-release Notice  
+
+This is an **alpha release** of Cloud Cup (`v0.1.0-alpha.1`).  
+It is not recommended for production use. We encourage testing in development environments and reporting any issues to help us improve.  
+
+---
+
+### 🔗 Useful Links  
+
+- [GitHub Release Notes](https://github.com/cloud-cup/cloud-cup/releases/tag/v0.1.0-alpha.1)  
+- [Configuration Guide](../3_configuration)  
+- [Getting Started Guide](./getting-started)  

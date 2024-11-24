@@ -1,0 +1,31 @@
+---
+title: Releases
+description: Explore the versioning, release process, and current state of Cloud Cup.
+---
+
+# Releases  
+
+Cloud Cup follows the **Semantic Versioning** scheme (`MAJOR.MINOR.PATCH`) to ensure clarity in updates and backward compatibility. The project also maintains dedicated branches for each minor version, while the `main` branch reflects the upcoming features and major changes in development.  
+
+---
+
+## Versioning Strategy  
+
+- **MAJOR**: Introduces incompatible API changes.  
+- **MINOR**: Adds functionality in a backward-compatible manner.  
+- **PATCH**: Fixes bugs or makes backward-compatible improvements.  
+
+> **Tip**: For stable environments, we recommend sticking to a specific minor release branch, such as `release-0.1`.  
+
+---
+
+## Release Process  
+
+- **Main Branch**: Represents the latest work in progress, which will eventually lead to the next major or minor release.  
+- **Release Branches**: Each minor version (e.g., `release-0.1`) is maintained separately for stability and patch updates.  
+
+### Lifecycle Example  
+
+1. Development of features begins on the `main` branch.  
+2. Upon stabilization, a new minor version is branched off (e.g., `release-0.1`).  
+3. Critical bug fixes or patches for an existing version are applied directly to its release branch (e.g., `release-0.1.1`).  

@@ -1,0 +1,66 @@
+---
+title: Getting Started
+description: A guide to help you set up and run Cloud Cup for the first time.
+---
+
+# Getting Started with Cloud Cup  
+
+Welcome to **Cloud Cup**! This guide will help you quickly get up and running with the first pre-release version of the project.  
+
+---
+## ⚙️ Prerequisites  
+
+Make sure you have the following installed on your system:  
+
+- **Zig 0.13**: The build system requires Zig 0.13 or later.  
+
+To verify your Zig version:  
+```bash
+zig version
+```
+---
+
+## 📦 Downloading Cloud Cup  
+
+You can start by obtaining Cloud Cup in one of two ways:  
+
+1. **Download the release archive**:  
+   - Grab the file `cloud-cup-0.1.0-alpha.1.tar.gz` attached to the [v0.1.0-alpha.1 release](https://github.com/cloud-cup/cloud-cup/releases/tag/v0.1.0-alpha.1).  
+
+2. **Clone the project from GitHub**:  
+   - To test the `v0.1.0-alpha.1` release, clone the release branch:  
+     ```bash
+     git clone --branch release-0.1 https://github.com/cloud-cup/cloud-cup.git
+     ```  
+   - For the latest development version, clone the main branch:  
+     ```bash
+     git clone https://github.com/cloud-cup/cloud-cup.git
+     ```
+   - Run the installation:
+    ```bash
+     make install
+    ```
+   - Build the project in release mode:
+    ```bash
+    zig build -Drelease=true
+    ```
+After the build completes, you’ll have an executable binary for Cloud Cup. in `zig-out/bin/cloud-cup`
+
+---
+
+## 🏃 Running Cloud Cup
+
+To run Cloud Cup:
+
+  - Set up your configuration file:
+    Create a JSON configuration file (e.g., my_config.json) to define the server settings, routes, and backends. 
+    Refer to the [Configuration Guide](./3_configuration) for details on how to structure your configuration.
+
+  - Start the application:
+    Use the following command to launch Cloud Cup with your configuration file:
+    ```bash 
+    ./cloud-cup my_config.json
+    ```
+  - Check if the server is running:
+    Once started, Cloud Cup will begin listening for incoming connections based on your configuration.
+

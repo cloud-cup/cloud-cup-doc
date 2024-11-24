@@ -1,3 +1,4 @@
+import { Logo } from '@/components/logo/logo';
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
 
 /**
@@ -9,7 +10,10 @@ import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared';
  */
 export const baseOptions: BaseLayoutProps = {
   nav: {
-    title: 'Cloud Cup',
+    enableSearch: true,
+    enabled: true,
+    transparentMode:"top",
+    children: <Logo/>
   },
   githubUrl: "https://github.com/cloud-cup/cloud-cup",
   links: [
