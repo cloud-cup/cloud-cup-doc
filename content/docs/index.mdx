@@ -1,0 +1,45 @@
+---
+title: Introduction to Cloud Cup
+description: high-performance, lightweight reverse proxy built for Linux in Zig
+--- 
+![Image](/intro.jpeg)
+
+**Cloud Cup** is a modern, high-performance reverse proxy built for Linux in Zig, designed to handle today's web traffic demands with **speed**, **scalability**, and **resilience**.  
+
+At its core, Cloud Cup implements a **master-worker architecture** that ensures **uninterrupted service**, **dynamic traffic management**, and **robust request handling**. Whether you’re a developer building microservices or an operations engineer managing web infrastructure, Cloud Cup offers the tools to keep your applications running smoothly and efficiently.  
+
+---
+
+## Master-Worker Architecture  
+
+Cloud Cup’s architecture revolves around its **master** and **worker processes**, each with distinct responsibilities:  
+
+### Master Process  
+
+- **Validates and applies configurations** at startup, ensuring they are correct before spawning workers.  
+- **Hot reloads configurations** via the CLI (`cupctl`), where the CLI process validates the new configuration and distributes it to workers dynamically.  
+- Spawns **multiple worker processes** and monitors them to ensure high availability. If a worker process exits unexpectedly, the master immediately spawns a replacement.  
+- Manages the CLI command listener, enabling seamless interaction for updates and diagnostics.  
+
+### Worker Process  
+
+- All workers **listen on the same port and address**, leveraging the kernel to distribute incoming requests efficiently among them.  
+- Each worker operates with its own **epoll instance** for high-performance request handling.  
+- Utilizes an independent **thread pool** to handle requests concurrently, ensuring scalability and responsiveness.  
+- Dynamically receives and applies configuration updates from the master process, maintaining consistency across all workers.  
+
+This architecture ensures **Cloud Cup remains operational** even under heavy load or in the event of individual worker failures, delivering unparalleled reliability and performance.  
+
+---
+
+## Why Choose Cloud Cup?  
+
+Cloud Cup addresses modern challenges in web traffic management with cutting-edge features:  
+
+- **Zero Downtime**: The master-worker model ensures high availability, with automatic worker respawning and dynamic configuration updates.  
+- **Kernel-Level Efficiency**: Workers listening on the same port let the Linux kernel manage request distribution, optimizing resource utilization.  
+- **Performance at Scale**: Each worker uses its own `epoll` and thread pool, maximizing throughput and responsiveness.  
+- **Dynamic Management**: Use the CLI to validate, reload, and apply configurations without interrupting traffic.  
+- **High Customizability**: Define granular routes and backends using a simple JSON file.  
+
+---

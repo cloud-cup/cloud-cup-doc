@@ -1,0 +1,151 @@
+---
+title: Configuration
+description: Learn how to configure Cloud Cup using a JSON-based configuration system.
+---
+
+Cloud Cup uses a JSON-based configuration file to define server behavior, routes, SSL settings, and load-balancing strategies. This document explains each configuration option in detail.  
+
+---
+
+## Configuration Fields  
+
+### `root` (Required)  
+- **Type**: `string`  
+- **Description**:  
+  The address where the server listens for incoming requests. This is required and defines the main entry point for your application.  
+- **Example**:  
+  ```json
+  "root": "127.0.0.1:8080"
+
+### `ssl` (Optional)
+- **Type**: `object`
+- **Description**:
+    Defines SSL settings for enabling HTTPS. This field is optional.
+
+- **Fields**:
+  - `ssl_certificate`
+      - **Type**: `string`
+      - **Description**: Path to the SSL certificate file.
+      - **Example**: "ssl_key/certificate.crt"
+
+  - `ssl_certificate_key`
+      - **Type**: `string`
+      -  **Description**: Path to the SSL private key file.
+      -  **Example**: "ssl_key/private.key"
+
+- **Example**:  
+  ```json
+  "ssl": {  
+  "ssl_certificate": "ssl_key/certificate.crt",  
+  "ssl_certificate_key": "ssl_key/private.key"  
+  }
+
+### `routes` (Required)
+
+- **Type**: `object`
+- **Description**: Defines how incoming requests are routed to backend servers. Each route can have specific settings, including backends and load-balancing strategies.
+
+#### Default Fallback
+
+The `*` **The main route** is mandatory and acts as the default route. It ensures that requests that don’t match any specific path are forwarded to a designated backend.
+
+#### Route Fields:
+
+- `backends` (Required)
+    - **Type**: `array of objects`
+    - **Description**: Specifies the backend servers that handle requests for this route.
+
+    #### Backend Fields:
+
+    - `host`:
+        - **Type**: `string`
+        - **Description**: Address of the backend server.
+        - **Example**: "127.0.0.1:8081"
+
+    - `max_failure`:
+        - **Type**: `integer` (optional, default: 5)
+        - **Description**: The maximum number of connection failures allowed for a backend server during a single request.
+        - **Behavior**:
+            If a backend fails to connect up to `max_failure` times, it is temporarily marked as failed for that request. Success resets the failure counter for subsequent requests.
+
+- `strategy` (Optional)
+    - **Type**: `string`
+    - **Default**: "round-robin"
+    - **Description**: Specifies the load-balancing strategy for the route.
+    - **Available Strategies**:
+        - "round-robin": Distributes requests evenly among backends.
+
+#### Notes
+- **Route Patterns**
+  When specifying routes, you can define patterns for matching incoming requests:
+    - Routes like `/about/*` match all requests starting with `/about/`, such as `/about/story`, `/about/team` or `/about/dev?id=5`.
+    - This allows flexible mapping of groups of similar URLs to a single route configuration.
+
+- **Dynamic Reload**: Configuration changes can be applied dynamically using the CLI (`cupctl`) without restarting the server.
+- **Failure Management**: The `max_failure` mechanism prevents infinite loops when all backends are unavailable.
+- **Default Behavior**: If no specific route matches, requests are forwarded to the default route (`*`).
+
+### Example 
+ The main route (`*`) is required and should be defined in the configuration file 
+```json 
+{
+  "root": "127.0.0.1:8080",
+  "ssl": {  
+    "ssl_certificate": "ssl_key/certificate.crt",  
+    "ssl_certificate_key": "ssl_key/private.key"  
+  },
+  "routes": {
+    "*": {
+      "backends": [
+        {
+          "host": "127.0.0.1:8081",
+          "max_failure": 10
+        }
+      ]
+    },
+    "/": {
+      "backends": [
+        {
+          "host": "127.0.0.1:8082",
+          "max_failure": 5
+        }
+      ]
+    },
+    "/about/*": {
+      "backends": [
+        {
+          "host": "127.0.0.1:8083",
+          "max_failure": 5
+        },
+        {
+          "host": "127.0.0.1:8084",
+          "max_failure": 5
+        },
+        {
+          "host": "127.0.0.1:8085",
+          "max_failure": 3
+        }
+      ],
+      "strategy": "round-robin"
+    },
+    "/about/dev": {
+      "backends": [
+        {
+          "host": "127.0.0.1:8086",
+          "max_failure": 5
+        },
+        {
+          "host": "127.0.0.1:8087",
+          "max_failure": 5
+        },
+        {
+          "host": "127.0.0.1:8088",
+          "max_failure": 5
+        }
+      ],
+      "strategy": "round-robin"
+    }
+  }
+}
+````
+
