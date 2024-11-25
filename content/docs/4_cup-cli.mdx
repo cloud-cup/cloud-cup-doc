@@ -1,6 +1,73 @@
 ---
-title: Cup Cli
-description: With Cloud Cup, setting up and managing a reverse proxy is easy and  straightforward
+title: Cup CLI
+description: Learn how to use the Cup CLI tool to manage and monitor your Cloud-Cup reverse proxy server.
 ---
 
-TODO
+# 🧰 Cup CLI
+
+**Cup CLI** is a command-line interface (CLI) tool designed to help you efficiently manage and interact with your **Cloud-Cup** reverse proxy instance. With Cup CLI, you can monitor server status, check configurations, test backends and routes, and apply changes seamlessly.
+
+---
+
+## 📦 Installation  
+
+To get started with the Cup CLI tool:  
+
+1. **Download the Release Archive**  
+   Download the file `cup-cli-0.1.0-alpha.1.tar.gz` attached to the [v0.1.0-alpha.1 release](https://github.com/cloud-cup/cup-cli/releases/tag/v0.1.0-alpha.1).  
+
+2. **Extract the Archive**  
+
+The CLI tool cup is now ready to use.
+
+## 🚀 Usage
+
+Here are the commands available with Cup CLI:
+
+#### Check Application Status
+
+Shows whether the Cloud-Cup application is running or not:
+```bash
+cup show status
+```
+#### View Current Configuration
+
+Displays the current configuration file the application is using:
+```bash
+cup show config
+```
+#### Check Backend Health
+
+##### Check All Backends
+
+Verifies the health of all configured backend servers:
+```bash
+cup check
+```
+##### Check a Specific Backend
+
+Checks the health of a backend server by specifying its address:
+```bash
+cup check -b <backend-address>
+```
+Replace `<backend-address>` with the IP or hostname of the backend (e.g., `127.0.0.1:8081`).
+
+##### Check Route Functionality 
+
+Checks if a specific route is functioning as expected:
+```bash
+cup check -r <route-name>
+```
+Replace `<route-name>` with the name of the route (e.g., `*` or `/example/*`).
+
+#### Apply a New Configuration 
+
+Applies a new configuration file and performs a hot reload of the application:
+```bash
+cup apply -f <file-path>
+```
+Replace `<file-path>` with the path to the new configuration file (e.g., `configs/new-config.json`).
+
+### 🛡️ Notes
+  - Dynamic Hot Reload: All changes made using cup apply are applied without restarting the server.
+  - Health Checks: Regularly use cup check to ensure backend servers and routes are healthy. 
